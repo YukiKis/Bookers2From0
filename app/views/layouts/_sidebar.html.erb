@@ -8,9 +8,9 @@
       <th>Introduction</th><th><%= user.introduction %></th>
     </tr>
   </table>
-  <a href="#" class="btn btn-block">SETTING</a>
+  <%= link_to "SETTING", edit_user_path(user) %>
 
-  <%= form_with model: current_user.books.build, local: true do |f| %>
+  <%= form_with model: book_new, local: true do |f| %>
     <%= f.text_field :title, class: "form-control" %><br>
     <%= f.text_area :body, class: "form-control" %>
     <%= f.submit "Create Book", class: "btn btn-block btn-success" %>

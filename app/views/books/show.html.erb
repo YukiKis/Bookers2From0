@@ -1,2 +1,24 @@
-<h1>Books#show</h1>
-<p>Find me in app/views/books/show.html.erb</p>
+<%= render "layouts/error-explanation", book_new: @book_new %>
+
+<div class="col-md-3">
+  <%= render "layouts/sidebar", user: @user, book_new: @book_new%>
+</div>
+
+<div class="col-md-9">
+  <h3>Book detail</h3>
+  <table class="table">
+    <tr>
+      <th>
+        <%= link_to user_path(@user) do %>
+          <%= attachment_image_tag @user, :profile_image, :fill, 30, 30, format: "jpg", fallback: "rails.png", size: "30x30" %><br><%= @user.name %>
+        <% end %>
+      </th>
+      <td><%= @book.title %></td>
+      <td><%= @book.body %></td>
+      <% if @user == current_user %>
+        <td><%= link_to "Edit", edit_book_path(@book), class: "btn btn-info" %></td>
+        <td><%= link_to "Destroy", book_path(@book), method: :delete, class: "btn btn-danger" %></td>
+      <% end %>
+    </tr>
+  </table>
+</div>

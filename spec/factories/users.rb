@@ -11,8 +11,8 @@ FactoryBot.define do
   factory :user2, class: User do
     name { "yuna" }
     email { "yuna@com" }
-    password{ "testtest" }
-    passwrod_confirmation { "testtest" }
+    password { "testtest" }
+    password_confirmation { "testtest" }
     introduction { "WHO ARE YOU ?" }
   end
 

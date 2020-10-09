@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Book, type: :model do
   context "when on validateion" do
-    let(:user){ create(:user) }
+    let(:user){ create(:user1) }
     let(:book){ build(:book1, user: user) }
     it "is valid" do
       expect(book).to be_valid

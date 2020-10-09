@@ -1,0 +1,10 @@
+<% if book_new.errors.any? %>
+  <div class="error-explanation">
+    <h3><%= pluralize(book_new.errors.count, "error") %> prohibited from being saved</h3>
+    <ul>
+      <% book_new.errors.full_messages.each do |m| %>
+        <li><%= m %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

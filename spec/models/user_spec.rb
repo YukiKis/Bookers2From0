@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   context "on validation" do
-    let(:user){ build(:user) }
+    let(:user){ build(:user1) }
     it "is valid" do
       expect(user).to be_valid
     end

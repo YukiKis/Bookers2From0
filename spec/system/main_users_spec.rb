@@ -129,7 +129,7 @@ RSpec.describe "Mains", type: :system do
       fill_in "user[name]", with: ""
       click_button "Update User"
       expect(page).to have_content "error"
-      expect(current_path).to eq edit_user_path(user)
+      expect(current_path).to eq user_path(user)
     end
 
   end

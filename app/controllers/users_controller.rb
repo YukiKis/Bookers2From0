@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  # before_action :setup
+   before_action :setup, only: [:index, :show]
 
-  # # def setup
-  # #   @book_new = Book.new
-  # # end
+  def setup
+    @book_new = Book.new
+  end
 
   def index
     @users = User.all
@@ -25,7 +25,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      redirect_to user_path(user), notice: "You successfully have updated your information"
+      redirect_to user_path(@user), notice: "You successfully have updated your information"
     else
       render "edit"
     end
