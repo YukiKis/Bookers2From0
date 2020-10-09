@@ -1,0 +1,29 @@
+<div class="col-md-3">
+  <%= render "layouts/sidebar", user: @user %>
+</div>
+
+<div class="col-md-9">
+  <h3>Users</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Books count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td>
+            <%= link_to user_path(user) do %>
+              <%= attachment_image_tag user, :profile_image, :fill, 30, 30, format: "jpg", fallback: "rails.png", size: "30x30", class: "profile_image" %>
+            <% end %>
+          </td>
+          <td><%= link_to user.name, user_path(user) %></td>
+          <td><%= pluralize(user.books.count, "book") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

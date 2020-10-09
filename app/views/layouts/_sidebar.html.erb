@@ -1,0 +1,17 @@
+  <h3>User info</h3>
+  <%= attachment_image_tag user, :profile_image, :fill, 30, 30, format: "jpg", fallback: "rails.png", size: "30x30", class: "profile_image"%>
+  <table class="table">
+    <tr>
+      <th>Name</th><td><%= user.name %></td>
+    </tr>
+    <tr>
+      <th>Introduction</th><th><%= user.introduction %></th>
+    </tr>
+  </table>
+  <a href="#" class="btn btn-block">SETTING</a>
+
+  <%= form_with model: current_user.books.build, local: true do |f| %>
+    <%= f.text_field :title, class: "form-control" %><br>
+    <%= f.text_area :body, class: "form-control" %>
+    <%= f.submit "Create Book", class: "btn btn-block btn-success" %>
+  <% end %>

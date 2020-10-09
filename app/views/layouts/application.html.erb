@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bookers3</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+
+        <%= render "layouts/header" %>
+
+        <% unless notice.nil? || alert.nil? %>
+          <p class="notice"><%= notice %></p>
+          <p class="alert"><%= alert %></p>
+        <% end %>
+
+        <%= yield %>
+
+        <%= render "layouts/footer" %>
+        
+      </div>
+    </div>
+  </body>
+</html>
