@@ -23,7 +23,7 @@ RSpec.describe "Devises", type: :system do
     before do
       visit new_user_registration_path
     end
-    let(:user){ create(:user1) }
+    let(:user){ build(:user1) }
     it "succeeds to make user" do
       fill_in "user[name]", with: user.name
       fill_in "user[email]", with: user.email

@@ -91,7 +91,6 @@ RSpec.describe "MainBooks", type: :system do
     # end
   end
 
-
   context "when on book-index page" do
     let(:user1){ create(:user1) }
     let(:book1){ create(:book1, user: user1) }
@@ -112,6 +111,27 @@ RSpec.describe "MainBooks", type: :system do
         expect(page).to have_content book.title
         expect(page).to have_link "Show", href: book_path(book)
       end
+    end
+    it "has a heart to make a favorite" do
+      expect(page).to have_link "", href: book_favorite_path(book1)
+    end
+    it "succeeds to make a favorite" do
+      before_count = book1.favorites.count
+      click_link "", href: book_favorite_path(book1)
+      expect(current_path).to eq book_path(book1)
+      after_count = book1.favorites.count
+      expect(before_count).not_to eq after_count
+    end
+    it "has a red heart to delete favorite" do 
+      expect(page).to have_link "", href: book_favorite_path(book1)
+      expect(page).to have_content "red-heart"
+    end
+    it "succeeds to destroy a favorite" do
+      before_count = book1.favorites.count
+      click_link "", href: book_path(book1)
+      expect(current_path).to eq book_path(book1)
+      after_count = book1.favorites.count
+      expect(before_count).not_to eq after_count
     end
   end
 
@@ -158,6 +178,45 @@ RSpec.describe "MainBooks", type: :system do
     #   visit book_path(book1)
     #   expect(page).not_to have_link "Destroy", href: book_path(book1)
     # end
+    it "has a heart to make a favorite" do
+      expect(page).to have_link ".glyphicon-heart", href: book_favorite_path(book1)
+    end
+    it "succeeds to make a favorite" do
+      before_count = book1.favorites.count
+      click_link ".glyphicon-heart", href: book_favorite_path(book1)
+      expect(current_path).to eq book_path(book1)
+      after_count = book1.favorites.count
+      expect(before_count).not_to eq after_count
+    end
+    it "has a red heart to delete favorite" do 
+      expect(page).to have_link ".glyphicon-heart", href: book_favorite_path(book1)
+      expect(page).to have_content "red-heart"
+    end
+    it "succeeds to destroy a favorite" do
+      before_count = book1.favorites.count
+      click_link ".glyphicon-heart", href: book_favorite_path(book1)
+      expect(current_path).to eq book_path(book1)
+      after_count = book1.favorites.count
+      expect(before_count).not_to eq after_count
+    end
+
+    it "has comment-list" do
+      user2.comments.create(book: book1, comment: "Interesting")
+      comments = book1.comments
+      comments.each do |comment|
+        expect(page).to have_link comment.user, href: user_path(comment_user)
+        expect(page).to have_content comment.comment
+        if comment_user == current_user
+          expect(page).to have_link "Destroy", href: book_comment_path
+        end
+      end
+    end
+
+    it "has comment-form" do
+      expect(page).to have_field "comment[comment]"
+      expect(page).to have_button "POST" 
+    end
+
   end
   context "when on book-edit page" do
     let(:user1){ create(:user1) }

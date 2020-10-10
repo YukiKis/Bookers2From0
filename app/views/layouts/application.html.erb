@@ -4,7 +4,7 @@
     <title>Bookers3</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <script src="https://kit.fontawesome.com/6d2f46eeba.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -15,11 +15,11 @@
 
         <%= render "layouts/header" %>
 
-        <% unless notice.nil? || alert.nil? %>
-          <p class="notice"><%= notice %></p>
-          <p class="notice"><%= flash[:notice] %></p>
-          <p class="alert"><%= alert %></p>
-          <p class="alert"><%= flash[:alert] %></p>
+        <% if notice.present? %>
+          <p><%= notice %></p>
+        <% end %>
+        <% if alert.present? %>
+          <p><%= alert %></p>
         <% end %>
 
         <%= yield %>

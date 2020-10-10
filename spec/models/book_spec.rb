@@ -18,5 +18,11 @@ RSpec.describe Book, type: :model do
     it "has a user" do
       expect(Book.reflect_on_association(:user).macro).to eq :belongs_to
     end
+    it "has many favoriets" do
+      expect(Book.reflect_on_association(:favorites).macro).to eq :has_many
+    end
+    it "has many comments" do
+      expect(Book.reflect_on_association(:comments).macro).to eq :has_many
+    end
   end
 end

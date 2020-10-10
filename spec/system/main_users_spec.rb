@@ -29,6 +29,7 @@ RSpec.describe "Mains", type: :system do
 
   context "when on user-show" do
     let(:user){ create(:user1) }
+    let(:user2){ create(:user2) }
     let(:book1){ create(:book1, user: user) }
     let(:book2){ create(:book2, user: user) }
     
@@ -51,6 +52,26 @@ RSpec.describe "Mains", type: :system do
     end
     it "has user profile_image" do
       expect(page).to have_css "img.profile_image"
+    end
+    it "has follow_link" do
+      visit user_path(user2)
+      expect(page).to have_link "Follow", href: user_relationships_path(user2)
+    end
+    it "has unfollow link" do
+      visit user_path(user2)
+      click_link "Follow"
+      expect(page).to have_link "Unfollow", href: user_relationships_path(user2)
+    end
+    it "succeeds to follow" do
+      visit user_path(user2)
+      click_link "Follow"
+      expect(page).to have_link "Unfollow"
+    end
+    it "succeeds to unfollow" do
+      visit user_path(user2)
+      click_link "Follow"
+      click_link "Unfollow"
+      expect(page).to have_link "Follow"
     end
     it "has book form to post" do
       expect(page).to have_field "book[title]"
