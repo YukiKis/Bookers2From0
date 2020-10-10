@@ -261,8 +261,8 @@ RSpec.describe "MainBooks", type: :system do
     it "not able to get edit link if it is NOT the user" do
       click_link "LOGOUT"
       visit new_user_session_path
-      fill_in "user[name]", user2.name
-      fill_in "user[password]", user2.password
+      fill_in "user[name]", with: user2.name
+      fill_in "user[password]", with: user2.password
       click_button "Login"
       visit edit_book_path(book1)
       expect(current_path).to eq user_path(book1.user)

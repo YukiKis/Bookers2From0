@@ -13,8 +13,19 @@
   <% end %>
 
   <div class="follow-btn">
-    <%= render "users/followbtn", user: @user %>
+    <%= render "users/followbtn", user: user %>
   </div>
+
+  <div class="chat-btn">
+    <% if current_user.following?(user) && user.following?(current_user) %>
+      <% if current_user.room_with?(user) %>
+        <%= link_to "Chatting", room_path(room), class: "btn btn-block btn-info" %>
+      <% else %>
+        <%= link_to "Start Chatting", user_entries_path(user), method: :post, class: "btn btn-block btn-success" %>
+      <% end %>
+    <% end %>
+  </div>
+
   <br>
   <div class="book-form">
     <%= form_with model: book_new, local: true, class: "form-group" do |f| %>

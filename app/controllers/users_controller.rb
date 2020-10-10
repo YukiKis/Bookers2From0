@@ -13,6 +13,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @room = current_user.room_with?(@user)
   end
 
   def edit

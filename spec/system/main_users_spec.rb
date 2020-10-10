@@ -84,6 +84,14 @@ RSpec.describe "Mains", type: :system do
         expect(page).to have_link book.title, href: book_path(book)
       end
     end
+    it "has button to start chat" do
+      expect(page).to have_button "Start Chatting"
+    end
+    it "has button to restart chat" do
+      room = Room.create
+      entry = user.entries.creaet(room: room)
+      expect(page).to have_link "Chatting", href: room_path(room)
+    end
   end
 
   context "when on user-index page" do

@@ -23,5 +23,11 @@ RSpec.describe User, type: :model do
     it "has many comments" do
       expect(User.reflect_on_association(:comments).macro).to eq :has_many
     end
+    it "has many messages" do
+      expect(User.reflect_on_association(:messages).macro).to eq :has_many
+    end
+    it "has many rooms" do
+      expect(User.reflect_on_association(:rooms).macro).to eq :has_many
+    end
   end
 end
