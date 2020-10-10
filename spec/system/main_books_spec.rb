@@ -100,7 +100,7 @@ RSpec.describe "MainBooks", type: :system do
       fill_in "user[name]", with: user1.name
       fill_in "user[password]", with: user1.password
       click_button "Login"
-      visit users_path
+      visit books_path
     end
     it "has 'Books'" do
       expect(page).to have_content "Books"
@@ -112,27 +112,56 @@ RSpec.describe "MainBooks", type: :system do
         expect(page).to have_link "Show", href: book_path(book)
       end
     end
-    it "has a heart to make a favorite" do
-      expect(page).to have_link "", href: book_favorite_path(book1)
+    # it "has a heart to make a favorite" do
+    #   expect(page).to have_link "heart", href: book_favorite_path(book1)
+    # end
+    # it "succeeds to make a favorite" do
+    #   before_count = book1.favorites.count
+    #   click_link "heart", href: book_favorite_path(book1)
+    #   expect(current_path).to eq book_path(book1)
+    #   after_count = book1.favorites.count
+    #   expect(before_count).not_to eq after_count
+    # end
+    # it "has a red heart to delete favorite" do 
+    #   expect(page).to have_link "red-heart", href: book_favorite_path(book1)
+    #   expect(page).to have_content "red-heart"
+    # end
+    # it "succeeds to destroy a favorite" do
+    #   before_count = book1.favorites.count
+    #   click_link "red-heart", href: book_path(book1)
+    #   expect(current_path).to eq book_path(book1)
+    #   after_count = book1.favorites.count
+    #   expect(before_count).not_to eq after_count
+    # end
+
+    it "has search-form" do
+      expect(page).to have_field "search[search]"
+      expect(page).to have_select("search[user_book]", options: ["Users", "Books"])
+      expect(page).to have_select("search[how]", options: ["完全一致", "前方一致", "後方一致", "部分一致"])
+      expect(page).to have_button "SEARCH"
     end
-    it "succeeds to make a favorite" do
-      before_count = book1.favorites.count
-      click_link "", href: book_favorite_path(book1)
-      expect(current_path).to eq book_path(book1)
-      after_count = book1.favorites.count
-      expect(before_count).not_to eq after_count
+
+    it "succeeds to search by user_whole" do
+      fill_in "search[search]", with: book1.user.name
+      select "Users", from: "search[user_book]"
+      select "完全一致", from: "search[how]"
+      click_button "SEARCH"
+      expect(current_path).to eq books_search_path
+      expect(page).to have_content book1.title
     end
-    it "has a red heart to delete favorite" do 
-      expect(page).to have_link "", href: book_favorite_path(book1)
-      expect(page).to have_content "red-heart"
+    it "succeeds to search by book_partial" do
+      fill_in "search[search]", with: book1.title.chars[0..2].join
+      select "Books", from: "search[user_book]"
+      select "部分一致", from: "search[how]"
+      click_button "SEARCH"
+      expect(current_path).to eq books_search_path
+      expect(page).to have_content book1.title
     end
-    it "succeeds to destroy a favorite" do
-      before_count = book1.favorites.count
-      click_link "", href: book_path(book1)
-      expect(current_path).to eq book_path(book1)
-      after_count = book1.favorites.count
-      expect(before_count).not_to eq after_count
-    end
+    # it "fails to search" do
+    #   click_button "SEARCH"
+    #   expect(current_path).to eq books_search_path
+    #   expect(page).to have_content "Please fill in search word"
+    # end
   end
 
   context "when on book-show page" do
@@ -178,33 +207,33 @@ RSpec.describe "MainBooks", type: :system do
     #   visit book_path(book1)
     #   expect(page).not_to have_link "Destroy", href: book_path(book1)
     # end
-    it "has a heart to make a favorite" do
-      expect(page).to have_link ".glyphicon-heart", href: book_favorite_path(book1)
-    end
-    it "succeeds to make a favorite" do
-      before_count = book1.favorites.count
-      click_link ".glyphicon-heart", href: book_favorite_path(book1)
-      expect(current_path).to eq book_path(book1)
-      after_count = book1.favorites.count
-      expect(before_count).not_to eq after_count
-    end
-    it "has a red heart to delete favorite" do 
-      expect(page).to have_link ".glyphicon-heart", href: book_favorite_path(book1)
-      expect(page).to have_content "red-heart"
-    end
-    it "succeeds to destroy a favorite" do
-      before_count = book1.favorites.count
-      click_link ".glyphicon-heart", href: book_favorite_path(book1)
-      expect(current_path).to eq book_path(book1)
-      after_count = book1.favorites.count
-      expect(before_count).not_to eq after_count
-    end
+    # it "has a heart to make a favorite" do
+    #   expect(page).to have_link "heart", href: book_favorite_path(book1)
+    # end
+    # it "succeeds to make a favorite" do
+    #   before_count = book1.favorites.count
+    #   click_link "heart", href: book_favorite_path(book1)
+    #   expect(current_path).to eq book_path(book1)
+    #   after_count = book1.favorites.count
+    #   expect(before_count).not_to eq after_count
+    # end
+    # it "has a red heart to delete favorite" do 
+    #   expect(page).to have_link "red-heart", href: book_favorite_path(book1)
+    #   expect(page).to have_content "red-heart"
+    # end
+    # it "succeeds to destroy a favorite" do
+    #   before_count = book1.favorites.count
+    #   click_link "red-heart", href: book_favorite_path(book1)
+    #   expect(current_path).to eq book_path(book1)
+    #   after_count = book1.favorites.count
+    #   expect(before_count).not_to eq after_count
+    # end
 
     it "has comment-list" do
       user2.comments.create(book: book1, comment: "Interesting")
       comments = book1.comments
       comments.each do |comment|
-        expect(page).to have_link comment.user, href: user_path(comment_user)
+        expect(page).to have_link comment.user.name, href: user_path(comment.user)
         expect(page).to have_content comment.comment
         if comment_user == current_user
           expect(page).to have_link "Destroy", href: book_comment_path
@@ -229,15 +258,15 @@ RSpec.describe "MainBooks", type: :system do
       click_button "Login"
       visit edit_book_path(book1)
     end
-    # it "not able to get edit link if it is NOT the user" do
-    #   click_link "LOGOUT"
-    #   visit new_user_session_path
-    #   fill_in "user[name]", user2.name
-    #   fill_in "user[password]", user2.password
-    #   click_button "Login"
-    #   visit edit_book_path(book1)
-    #   expect(current_path).to eq user_path(book1.user)
-    # end
+    it "not able to get edit link if it is NOT the user" do
+      click_link "LOGOUT"
+      visit new_user_session_path
+      fill_in "user[name]", user2.name
+      fill_in "user[password]", user2.password
+      click_button "Login"
+      visit edit_book_path(book1)
+      expect(current_path).to eq user_path(book1.user)
+    end
     it "has 'Editing book'" do
       expect(page).to have_content "Editing book"
     end

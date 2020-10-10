@@ -1,4 +1,5 @@
 <%= render "layouts/error-explanation", book_new: @book_new %>
+<%= render "books/search" %>
 
 <div class="col-md-3">
   <%= render "layouts/sidebar", user: @user, book_new: @book_new%>
@@ -15,7 +16,7 @@
       </th>
       <td><%= @book.title %></td>
       <td><%= @book.body %></td>
-      <td id="book-<%= @book.id %>">
+      <td id="favorite-btn-<%= @book.id %>">
         <%= render "favorites/favorite", book: @book%>
       </td>
       <% if @user == current_user %>

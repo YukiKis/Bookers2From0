@@ -11,15 +11,14 @@ class FavoritesController < ApplicationController
     if @fav.present?
     else
       current_user.favorites.create(book: @book)
-      redirect_to book_path(@book)
+      @book.reload
     end
   end
 
   def destroy
     if @fav.present?
       @fav.destroy
-      redirect_to book_path(@book)
+      @book.reload
     end
   end
-
 end

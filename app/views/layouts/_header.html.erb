@@ -14,7 +14,7 @@
           <li><%= link_to "HOME", user_path(current_user) %></li>
           <li><%= link_to "BOOKS", books_path %></li>
           <li><%= link_to "USERS", users_path %></li>
-          <li><%= link_to "LOGOUT", destroy_user_session_path %></li>
+          <li><%= link_to "LOGOUT", destroy_user_session_path, method: :delete %></li>
         <% else %>
           <li><%= link_to "HOME", root_path %></li>
           <li><%= link_to "ABOUT", about_path %></li>

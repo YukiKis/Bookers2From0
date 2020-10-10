@@ -59,8 +59,43 @@ class BooksController < ApplicationController
     end
   end
 
+  def search
+    @search = search_params[:search]
+    @user_book = search_params[:user_book]
+    @how = search_params[:how]
+    @books = []
+      case @user_book
+      when "Users"
+        case @how
+        when "完全一致" 
+          @books = Book.by_user_whole(@search)
+        when "前方一致" 
+          @books = Book.by_user_headpart(@search)
+        when "後方一致" 
+          @books = Book.by_user_tailpart(@search)
+        when "部分一致"
+          @books = Book.by_user_part(@search)
+        end
+      when "Books"
+        case @how
+        when "完全一致"
+          @books = Book.by_title_whole(@search)
+        when "前方一致"
+          @books = Book.by_title_headpart(@search)
+        when "後方一致"
+          @books = Book.by_title_tailpart(@search)
+        when "部分一致"
+          @books = Book.by_title_part(@search)
+        end
+      end
+  end
+
   private
     def book_params
       params.require(:book).permit(:title, :body)
+    end
+
+    def search_params
+      params.require(:search).permit(:search, :user_book, :how)
     end
 end

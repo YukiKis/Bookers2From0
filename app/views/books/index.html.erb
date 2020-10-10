@@ -1,5 +1,6 @@
 <%= render "layouts/error-explanation", book_new: @book_new %>
-  
+<%= render "books/search"%>
+
 <div class="col-md-3">
   <%= render "layouts/sidebar", user: @user, book_new: @book_new%>
 </div>
@@ -13,7 +14,7 @@
           <th><%= attachment_image_tag book.user, :profile_image, :fill, 30, 30, format: "jpg", fallback: "rails.png", size: "30x30" %><br><%= book.user.name %></th>
           <td><%= book.title %></td>
           <td><%= link_to "Show", book_path(book) %></td>
-          <td>
+          <td id="favorite-btn-<%= book.id %>">
             <%= render "favorites/favorite", book: book%>
           </td>
         </tr>
